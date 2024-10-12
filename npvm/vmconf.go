@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-//go:embed bin/**
+//go:embed bin/***
 var binaryFiles embed.FS
 
 // Stellt den Programmweiten Mutex dar

@@ -3,9 +3,8 @@
 # Standard-Variablen
 BINARY_NAME=cjsnpvm
 BUILD_DIR=build
-NPVM_DIR=npvm/src
+NPVM_DIR=npvm/qemu
 NPVM_BIN_DIR=npvm/bin
-OUTPUT_DIR=bin
 
 # Gemeinsame Konfigurationsoptionen
 CONFIGURE_OPTS=--prefix=/usr/local --disable-spice --disable-sdl --disable-gtk --disable-vnc --enable-virtfs
@@ -68,18 +67,13 @@ endif
 
 # Ziel: Standard build (generiert und baut)
 .PHONY: all
-all: generate build
-
-# Ziel: Generiere notwendige Dateien
-.PHONY: generate
-generate:
-	go generate ./...
+all: build go
 
 # Ziel: Baue das Projekt
 .PHONY: build
 build:
 	@echo "Starting build for $(OS) $(ARCH)..."
-	@mkdir -p $(BUILD_DIR) $(OUTPUT_DIR) $(NPVM_BIN_DIR)
+	@mkdir -p $(BUILD_DIR) $(NPVM_BIN_DIR)
 
 	# Navigiere zum NPVM-Verzeichnis und führe die Build-Schritte aus
 	@cd $(NPVM_DIR) && \
@@ -97,19 +91,24 @@ build:
 
 	# Führe go build aus, um das Go-Programm zu kompilieren
 	@echo "Compiling Go program for $(OS) $(ARCH)..."
-	GOOS=$(OS) GOARCH=$(ARCH) go build -o $(EXECUTABLE) main.go
+	@cd proc && \
+	GOOS=$(OS) GOARCH=$(ARCH) go build -o $(EXECUTABLE) main.go parms.go
 
-	# Kopiere das ausführbare Programm in das Build-Verzeichnis
-	@cp $(EXECUTABLE) $(BUILD_DIR)/
+	# Verschiebe das ausführbare Programm in das Build-Verzeichnis
+	@mv proc/$(EXECUTABLE) $(BUILD_DIR)/
 
-	@echo "Build completed for $(OS) $(ARCH). Executables are in $(BUILD_DIR)/ and $(OUTPUT_DIR)/"
-
+	@echo "Build completed for $(OS) $(ARCH). Executables are in $(BUILD_DIR)/"
 # Ziel: Bereinige generierte Dateien und Build-Ordner
 .PHONY: clean
 clean:
 	@echo "Cleaning build artifacts..."
 	go clean
-	rm -rf $(BUILD_DIR) $(OUTPUT_DIR) $(EXECUTABLE) $(NPVM_BIN_DIR)
+	rm -rf $(BUILD_DIR) $(EXECUTABLE) $(NPVM_BIN_DIR)
 	@echo "Clean completed."
-
-# Weitere nützliche Ziele können hier hinzugefügt werden
+# Erstellt nur die Go Datei neu
+.PHONY: go
+go:
+	@echo "Compiling Go program for $(OS) $(ARCH)..."
+	@cd proc && GOOS=$(OS) GOARCH=$(ARCH) go build -o $(EXECUTABLE) main.go parms.go
+	@mv proc/$(EXECUTABLE) $(BUILD_DIR)/
+	@chmod +x $(BUILD_DIR)/$(EXECUTABLE)

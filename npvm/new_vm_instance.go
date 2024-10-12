@@ -59,7 +59,13 @@ func InitVmInstance() error {
 		if err != nil {
 			return fmt.Errorf("fehler beim Schreiben der Datei %s: %w", targetPath, err)
 		}
+
+		fmt.Println(d.Name())
+
+		// Die Datei wird unter den Verwendeten Dateien Zwischengespeichert
 		runningFiles = append(runningFiles, targetPath)
+
+		// Rückgabe
 		return nil
 	})
 	if err != nil {
