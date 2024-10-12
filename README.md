@@ -1,1 +1,1 @@
-# cjs-network-platform
+# custodiaJs Network Platform (CJSNP)
