@@ -1,0 +1,5 @@
+package npvm
+
+func ShutdownNpVm() {
+
+}
