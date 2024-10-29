@@ -1,5 +1,0 @@
-package npvm
-
-func ShutdownNpVm() {
-
-}
