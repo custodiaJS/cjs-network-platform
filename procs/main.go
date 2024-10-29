@@ -236,7 +236,6 @@ func checksum(data []byte) uint16 {
 }
 
 // Zusätzliche Funktionen zum Handhaben von TCP- und UDP-Paketen
-
 func handleTCPPacket(ipHeader *IPHeader, payload []byte) {
 	// Parsen des TCP-Headers
 	tcpHeader := parseTCPHeader(payload)
