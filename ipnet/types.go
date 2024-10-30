@@ -1,7 +1,5 @@
 package ipnet
 
-import "net"
-
 type IPHeader struct {
 	Version        uint8
 	IHL            uint8
@@ -32,11 +30,4 @@ type UDPHeader struct {
 	DestinationPort uint16
 	Length          uint16
 	Checksum        uint16
-}
-
-// Packet definiert ein Netzwerkpaket mit grundlegenden Feldern
-type Packet struct {
-	SourceIP      net.IP
-	DestinationIP net.IP
-	Protocol      string // z. B. "TCP" oder "UDP"
 }

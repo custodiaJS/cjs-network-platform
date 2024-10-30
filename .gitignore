@@ -27,3 +27,6 @@ go.work.sum
 build
 npvm/bin/
 npvm/src/GNUmakefile
+
+netinstance
+netinstance.exe
