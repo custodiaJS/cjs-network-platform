@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"io"
 	"sync"
+
+	"github.com/custodiaJs/cjs-network-platform/iface/kernelspace"
+	"github.com/custodiaJs/cjs-network-platform/iface/userspace"
 )
 
 func InitUserSpaceNetworkStack(sessionSecureKey string, sessionId string) error {
@@ -24,7 +27,7 @@ func InitUserSpaceNetworkStack(sessionSecureKey string, sessionId string) error 
 	return nil
 }
 
-func AddKernelSpaceNetworkInterface(name string) error {
+func AddKernelSpaceNIC(name string, ksiface *kernelspace.KernelspaceNIC) error {
 	if !InstanceIsInited() {
 		return fmt.Errorf("not inited")
 	}
@@ -32,7 +35,7 @@ func AddKernelSpaceNetworkInterface(name string) error {
 	return nil
 }
 
-func AddUserSpaceNetworkInterface(name string) error {
+func AddUserSpaceNIC(name string, usiface *userspace.UserspaceNIC) error {
 	return nil
 }
 
